@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<html>
+  <head>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-37EMC72MZ6">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(&#39;js&#39;, new Date());
+
+  gtag(&#39;config&#39;, &#39;G-37EMC72MZ6&#39;);
+    </script>
+    <title>
+      Mr Lennyn&#39;s Tools
+    </title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  </head>
+  <body>
+    <header>
+      <div class="links">
+        <a href="../index.html">        Home
+</a>
+        <a href="imagetolua.html" style="background-color: rgb(40, 40, 40)">        Image Lua Converter
+</a>
+        <a href="../canvas/canvas.html">        Drawing Canvas
+</a>
+        <a href="../links/links.html">        Directory
+</a>
+        <a href="help.html">        Help
+</a>
+      </div>
+    </header>
+    <p>
+      Image to Lua converter with great performance. Able to draw to tens of screens without TPS drops.
+      <br />
+      If this doesn&#39;t work for you, check the Links tab, there are similar tools made by the community.
+      <br />
+      Check the Help tab for more information on this tool.
+      <br />
+    </p>
+    <div id="top">
+      <div class="tools">
+        <input type="number" id="gamma_fix" name="gama_fix" value="1.1" title="Color Correction Factor. A factor between 1.0 and 2.0 is recommended (gamma function by XLjedi)" style="width: 40px;" />
+        <label for="gamma_fix" title="Color Correction Factor. A factor between 1.0 and 2.0 is recommended (gamma function by XLjedi)">
+          Gamma-Fix Factor:
+        </label>
+      </div>
+      <div id="imagediv">
+        <br />
+        <input type="file" id="image" accept=".PNG" />
+        <br />
+        <img id="myImg" src="#" />
+      </div>
+      <div id="info">
+        <div id="color_count">
+        </div>
+        <div id="width">
+        </div>
+        <div id="height">
+        </div>
+      </div>
+    </div>
+    <div id="codediv">
+      <div id="buttondiv">
+      </div>
+    </div>
+    <canvas id="image_canvas" hidden="">
+    </canvas>
+    <script src="converter.js">
+    </script>
+  </body>
+</html>

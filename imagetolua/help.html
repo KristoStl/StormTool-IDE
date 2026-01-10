@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<html>
+  <head>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-37EMC72MZ6">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(&#39;js&#39;, new Date());
+
+  gtag(&#39;config&#39;, &#39;G-37EMC72MZ6&#39;);
+    </script>
+    <title>
+      Mr Lennyn&#39;s Tools
+    </title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  </head>
+  <body>
+    <header>
+      <div class="links">
+        <a href="../index.html">        Home
+</a>
+        <a href="imagetolua.html">        Image Lua Converter
+</a>
+        <a href="../canvas/canvas.html">        Drawing Canvas
+</a>
+        <a href="../links/links.html">        Directory
+</a>
+      </div>
+    </header>
+    <nav>
+    </nav>
+    <p id="help_guide">
+      Image to Lua converter:
+      <br />
+      This tool works by transforming your image into rectangles.
+      <br />
+      Simply upload your image, click on the buttons to copy the script to your clipboard, and paste in Stormworks.
+      <br />
+      For multiple scripts, connect a few Lua-blocks in any order.
+      <br />
+      Colors are modified in order to look better in the game. Thanks to XLjedi&#39;s color correction function.
+      <br />
+      <br />
+      How does it work?
+      <br />
+      In a normal image format, raw pixel data is stored for each pixel individually, each carries its own RGBA values.
+      <br />
+      The yellow circle below has a total of 686 pixels. 2744 different values in total.
+      <br />
+      Our tool transforms that data into rectangles to save on space and performance. How does it do that?
+      <br />
+      First, it will separate the image into colors and for each of them, it will find rectangles.
+      <br />
+      Each color carries its RGBA values, followed by every rectangle of the same color, stored in just 4 values each [x,y,width,height]
+      <br />
+      In the example below, we transform 686 pixels into just 17 rectangles.
+      <br />
+      <img class="helpimage" src="../images/Sprite-0001.png" alt="algorithm example" />
+      <br />
+      <br />
+      Another example, a bit more complex:
+      <br />
+      <img class="helpimage" src="../images/Sprite-0003.png" alt="Stormworks bird example" />
+      <img class="helpimage" src="../images/Sprite-0004.png" alt="Stormworks bird example 2" />
+      <br />
+      <br />
+      Please note that our images are Pixel Art, solid colors with simple shapes.
+      <br />
+      Because of the way our tool and Stormworks screens work, some images are not suited for conversion:
+      <br />
+      Images with anti-aliasing, a huge number of colors, or individual pixels, should be avoided.
+      <br />
+      And we must have in mind the resolution of Stormworks screens. From 32x32 to 288x160.
+      <br />
+      Here are some examples of what not to do:
+      <br />
+      <img class="helpimage" src="../images/Sprite-0002.png" alt="Stormworks bird example 2" />
+      <br />
+      This images have too many colors, or too many shapes. Anti-aliased images are not recomended, although they may still work.
+      <br />
+      <br />
+      Finally, we can render to more than a hundred screens without affecting the game&#39;s performance, depending on the image.
+      <br />
+      <img class="helpimage1" src="../images/256screens.jpg" alt="screens" />
+      <br />
+      <br />
+      Hopefully this tool can be of use to you. Thank you for using it!
+      <br />
+      <br />
+      Mr Lennyn
+      <br />
+      <br />
+      <br />
+      Errors:
+      <br />
+      Color String Error - Your image is too complex:
+      <br />
+      At least one color from your image has too many shapes, which means it can&#39;t fit in a script.
+      <br />
+      You need to modify your image or split those shapes into multiple colors.
+      <br />
+      <br />
+      For programmers:
+      <br />
+      Data is stored in a table that looks like this: p[color index][value index]
+      <br />
+      p = { {r,g,b,a,x1,y1,w1,h1,x2,y2,w2,h2...} , {r,g,b,a,x1,y1,w1,h1...} }
+      <br />
+      Each color is stored as a table, the first 4 values are r,g,b,a, followed by the x,y,w,h of each rectangle of the same color
+      <br />
+      <br />
+      <br />
+    </p>
+  </body>
+</html>
