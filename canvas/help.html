@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<html>
+  <head>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-37EMC72MZ6">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(&#39;js&#39;, new Date());
+
+  gtag(&#39;config&#39;, &#39;G-37EMC72MZ6&#39;);
+    </script>
+    <title>
+      Mr Lennyn&#39;s Tools
+    </title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  </head>
+  <body>
+    <header>
+      <div class="links">
+        <a href="../index.html">        Home
+</a>
+        <a href="../imagetolua/imagetolua.html">        Image Lua Converter
+</a>
+        <a href="canvas.html">        Drawing Canvas
+</a>
+        <a href="../links/links.html">        Directory
+</a>
+      </div>
+    </header>
+    <nav>
+    </nav>
+    <p id="help_guide">
+      <b>      Drawing Canvas Help &amp; Info:
+</b>
+      <br />
+      This tool lets you draw and plan UIs and graphics for Stormworks&#39; Screens.
+      <br />
+      Here you&#39;ll find important information about the tool!
+      <br />
+      <br />
+      <b>      Notes about shapes:
+</b>
+      <br />
+      Please have in mind that what you see displayed in this tool, often will not match what you see in-game, despite my best efforts.
+      <br />
+      Always double check how things are looking in-game, especially with triangles and circles.
+      <br />
+      <br />
+      -Line: OK, slightly different at odd angles.
+      <br />
+      -Triangle: OK, slightly different at odd angles.
+      <br />
+      -TriangleF: OK, slightly different at odd angles.
+      <br />
+      -Circle: Doesn&#39;t always match, more so with larger circles.
+      <br />
+      -CircleF: Doesn&#39;t match at all (cause in-game circleF is an ugly monster).
+      <br />
+      <br />
+      I was not always able to replicate Stormworks&#39; way of drawing shapes, sometimes because it&#39;s hard, sometimes
+      <br />
+      because I couldn&#39;t be bothered... like with the ugly circles in-game that aren&#39;t even circles.
+      <br />
+      <br />
+      <b>      Options Explained:
+</b>
+      <br />
+      -Color Fix: Does some math on the colors so they match better in SW screens. Gamma Fix function by XLjedi.
+      <br />
+      -Compact: Reduces the number of characters in a script by minimizing function names, e.g: sc = screen.setColor.
+      <br />
+      -Filled-Shape Fix: AMD and NVIDIA draw full rectangles/triangles differently. By adding 0.5 to the Y position, we fix it for both cards.
+      <br />
+      -Function Mode: Takes the entire drawing, turns it into a function with (x,y) parameters so you can move it around with your script. e.g: you what the same graphic at different places. Such as a button or icon.
+      <br />
+      -Color Grouping: Groups shapes by color, ignoring the order you drew them. Uncheck this if you have complex patterns or in-game doesn&#39;t look as it should.
+    </p>
+  </body>
+</html>

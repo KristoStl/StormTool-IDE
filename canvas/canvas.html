@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<html>
+  <head>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-37EMC72MZ6">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(&#39;js&#39;, new Date());
+
+  gtag(&#39;config&#39;, &#39;G-37EMC72MZ6&#39;);
+    </script>
+    <title>
+      Mr Lennyn&#39;s Tools - Canvas
+    </title>
+    <link rel="stylesheet" href="canvas.css" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  </head>
+  <body>
+    <header>
+      <div class="links">
+        <a href="../index.html">        Home
+</a>
+        <a href="../imagetolua/imagetolua.html">        Image Lua Converter
+</a>
+        <a href="canvas.html" style="background-color: rgb(40, 40, 40)">        Drawing Canvas
+</a>
+        <a href="../links/links.html">        Directory
+</a>
+        <a href="help.html">        Help
+</a>
+        <!-- <a id="canvas_button">Canvas</a>
+                <a id="code_button">Code</a> -->
+      </div>
+    </header>
+    <div id="canvas_space">
+      <div id="side_bar">
+        <div id="shapes">
+          <div>
+            <input class="shape_tools" id="canvas_menu_button" type="image" src="images/options_button.png" title="Canvas Options" />
+          </div>
+          <div>
+            <input class="shape_tools" id="save_button" type="image" src="images/save_button.png" title="Download Save File" />
+            <label for="load_button">
+              <input class="shape_tools" id="load_button" type="file" accept=".txt" style="display: none;" />
+              <img class="shape_tools" id="load_button_img" src="images/upload_button.png" title="Upload Save File" style="cursor: pointer;" />
+            </label>
+          </div>
+          <div>
+            <input class="shape_tools" id="undo" type="image" src="images/undo_button.png" title="[CTRL+Z] Undo" />
+            <input class="shape_tools" id="redo" type="image" src="images/redo_button.png" title="[CTRL+Y] Redo" />
+          </div>
+          <div>
+            <input class="shape_tools" id="line" type="image" src="images/line_button.png" title="[Q] Line" />
+            <input class="shape_tools" id="eraser" type="image" src="images/eraser_button.png" title="[F] Eraser" />
+          </div>
+          <div>
+            <input class="shape_tools" id="rect" type="image" src="images/rect_button.png" title="[W] Rect" />
+            <input class="shape_tools" id="rectF" type="image" src="images/rectF_button.png" title="[W] Rect Full" />
+          </div>
+          <div>
+            <input class="shape_tools" id="triangle" type="image" src="images/triangle_button.png" title="[E] Triangle" />
+            <input class="shape_tools" id="triangleF" type="image" src="images/triangleF_button.png" title="[E] Triangle Full" />
+          </div>
+          <div>
+            <input class="shape_tools" id="circle" type="image" src="images/circle_button.png" title="[R] Circle" />
+            <input class="shape_tools" id="circleF" type="image" src="images/circleF_button.png" title="[R] Circle Full" />
+          </div>
+          <div>
+            <input class="shape_tools" id="shape_color" type="image" src="images/shape_color_button.png" title="[S] Shape Color" />
+            <input class="shape_tools" id="bucket_color" type="image" src="images/bucket_button.png" title="[D] Bucket Color" />
+          </div>
+          <div>
+            <input class="shape_tools" id="text" type="image" src="images/text_button.png" title="[T] Text" />
+            <input class="shape_tools" id="eyedrop" type="image" src="images/eyedrop_button.png" title="[X] Eyedrop" />
+          </div>
+          <div>
+            <input class="shape_tools" id="push_back" type="image" src="images/push_back_button.png" title="[N] Push Shape Back" />
+            <input class="shape_tools" id="move_shape" type="image" src="images/move_button.png" title="[A] Move Shape" />
+          </div>
+          <div>
+            <input class="shape_tools" id="push_forward" type="image" src="images/push_forward_button.png" title="[M] Push Shape Forward" />
+          </div>
+          <div>
+            <input class="shape_tools" id="color" type="color" value="#FFFFFF" title="Color Picker" style="cursor: pointer;" />
+          </div>
+          <div>
+            <input class="shape_tools" id="alpha_input" type="number" title="Alpha (Transparency) 0-255" value="255" min="0" max="255" />
+          </div>
+          <div id="position">
+            (0,0)
+          </div>
+        </div>
+        <canvas id="canvas" oncontextmenu="return false;">
+        </canvas>
+        <div id="code_space">
+          <section id="outputSet">
+            <div>
+              <input class="shape_tools" id="code_menu_button" type="image" src="images/options_button.png" title="Output Options" />
+            </div>
+            <input class="output_tools" id="copy" type="image" src="images/copy_button.png" width="40px" height="40px" title="Copy Code to Clipboard" />
+            <div class="output_tools">
+              <label for="char_count">
+                Char Count:
+              </label>
+              <br />
+              <label id="char_count_number">
+                -
+              </label>
+            </div>
+          </section>
+          <div id="outputCode">
+            Output Code
+          </div>
+        </div>
+      </div>
+      <div id="canvas_options_menu" class="options_menu">
+        <div class="menu">
+          <label for="grid" title="Enable/Disable Grid">
+            Grid
+          </label>
+          <br />
+          <input type="checkbox" id="grid" name="grid" title="Enable/Disable Grid" checked="" />
+        </div>
+        <div class="menu">
+          <label for="screen" title="Screen Size">
+            Screen Size
+          </label>
+          <select id="screen" title="Screen Size" name="Screen Size">
+            <option value="1x1">
+              1x1
+            </option>
+            <option value="2x1">
+              2x1
+            </option>
+            <option value="2x2">
+              2x2
+            </option>
+            <option value="3x1">
+              3x1
+            </option>
+            <option value="3x2">
+              3x2
+            </option>
+            <option value="3x3">
+              3x3
+            </option>
+            <option value="5x3">
+              5x3
+            </option>
+            <option value="9x5">
+              9x5
+            </option>
+          </select>
+        </div>
+        <div class="menu">
+          <label for="refimage" title="Upload Reference Image">
+            Reference Image
+          </label>
+          <br />
+          <input type="file" id="refimage" name="refimage" title="Upload Reference Image" accept="image/png, image/jpeg" style="width: 180px; margin-left: 20px;" />
+        </div>
+        <div class="menu">
+          <label for="img_hide" title="Hide Image">
+            Hide Reference
+          </label>
+          <br />
+          <input type="checkbox" id="img_hide" name="img_hide" title="Hide Reference Image" />
+        </div>
+      </div>
+      <div id="code_options_menu" class="options_menu">
+        <div class="menu">
+          <div class="menu_start">
+            <img class="info_symbol" src="images/information.png" title="This slider will change the &#39;Color Fix&#39; output colors.
+Defaults to 1.3
+Mostly affects the brightness and contrast." />
+            <label id="gamma_html" for="gamma_factor">
+              Color Factor: 1.3
+            </label>
+          </div>
+          <input type="range" min="1" max="3" step="0.1" value="1.3" id="gamma_factor" name="gamma_factor" style="width: 60px; margin-left: 20px;" />
+        </div>
+        <div class="menu">
+          <div class="menu_start">
+            <img class="info_symbol" src="images/information.png" title="Color Correction to better match Stormworks screens colors.
+Thanks to XLjedi&#39;s gamma-fix formula." />
+            <label for="gamma">
+              Color Fix:
+            </label>
+          </div>
+          <input type="checkbox" id="gamma" name="gamma" checked="" />
+        </div>
+        <div class="menu">
+          <div class="menu_start">
+            <img class="info_symbol" src="images/information.png" title="Groups shapes by color, saving some space. 
+Ignores the order at which you drew the shapes,
+it can make your drawings look different in game" />
+            <label for="color_grouping">
+              Color Grouping:
+            </label>
+          </div>
+          <input type="checkbox" id="color_grouping" name="color_grouping" />
+        </div>
+        <div class="menu">
+          <div class="menu_start">
+            <img class="info_symbol" src="images/information.png" title="Reduce the number of characters in a script,
+by shortening function names.
+(example: SC = screen.setColor)
+Saves many characters" />
+            <label for="compact">
+              Compact:
+            </label>
+          </div>
+          <input type="checkbox" id="compact" name="compact" checked="" />
+        </div>
+        <div class="menu">
+          <div class="menu_start">
+            <img class="info_symbol" src="images/information.png" title="AMD cards draw full-shapes differently,
+this adds +0.5 vertically to rectF, circleF,
+and triangleF, in order to make your drawings
+compatible with both NVIDIA and AMD.
+But it takes extra characters." />
+            <label for="shapeF fix">
+              AMD compatible:
+            </label>
+          </div>
+          <input type="checkbox" id="shapeF fix" name="shapeF fix" checked="" />
+        </div>
+        <div class="menu">
+          <div class="menu_start">
+            <img class="info_symbol" src="images/information.png" title="Turn your drawing into a function
+with (X, Y) arguments. Allowing you to
+use your drawing multiple times, and
+change it&#39;s position dynamically.
+But it takes many more characters." />
+            <label for="function mode">
+              Function Mode:
+            </label>
+          </div>
+          <input type="checkbox" id="function mode" name="function mode" />
+        </div>
+      </div>
+    </div>
+    <script src="ui_handling.js">
+    </script>
+    <script src="canvas.js">
+    </script>
+    <div id="inputTextDiv">
+      <div style="width: 20px ; height: 30px;">
+      </div>
+      <!-- This is a filled to ocupy inputTexts space -->
+      <input type="text" id="inputText" name="inputText" size="10" />
+      <div class="inputTextOptions">
+        <img class="info_symbol" src="images/information.png" title="Alyosha15&#39;s 3x4 font. Only ~450 characters!" />
+        <label for="small_font">
+          3x4:
+        </label>
+        <input type="checkbox" id="small_font" name="small_font" />
+      </div>
+      <!--  <input class = "shape_tools" id="undo" type="image" src="images/undo_button.png" title="[CTRL+Z] Undo"/> -->
+    </div>
+  </body>
+</html>
