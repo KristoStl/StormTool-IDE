@@ -23,35 +23,49 @@
             <div class="category-label" style="color: #FFD700;">Events</div>
             <div class="draggable_block" data-type="onDraw" style="background: #FFD700;">onDraw()</div>
             <div class="draggable_block" data-type="onTick" style="background: #FFD700;">onTick()</div>
+            <div class="draggable_block" data-type="function" style="background: #FFD700;">function name(args)</div>
 
-            <div class="category-label" style="color: #4CAF50;">Drawing</div>
-            <div class="draggable_block" data-type="setColor" style="background: #4CAF50;">setColor(r,g,b,a)</div>
-            <div class="draggable_block" data-type="drawRect" style="background: #2196F3;">drawRect(x,y,w,h)</div>
-            <div class="draggable_block" data-type="drawRectF" style="background: #2196F3;">drawRectF(x,y,w,h)</div>
-            <div class="draggable_block" data-type="drawCircle" style="background: #2196F3;">drawCircle(x,y,r)</div>
-            <div class="draggable_block" data-type="drawText" style="background: #2196F3;">drawText(x,y,text)</div>
+            <div class="category-label" style="color: #4CAF50;">Screen</div>
+            <div class="draggable_block" data-type="setColor" style="background: #4CAF50;">setColor(r, g, b, a)</div>
+            <div class="draggable_block" data-type="drawRect" style="background: #2196F3;">drawRect(x, y, w, h)</div>
+            <div class="draggable_block" data-type="drawRectF" style="background: #2196F3;">drawRectF(x, y, w, h)</div>
+            <div class="draggable_block" data-type="drawLine" style="background: #2196F3;">drawLine(x1, y1, x2, y2)</div>
+            <div class="draggable_block" data-type="drawCircle" style="background: #2196F3;">drawCircle(x, y, r)</div>
+            <div class="draggable_block" data-type="drawCircleF" style="background: #2196F3;">drawCircleF(x, y, r)</div>
+            <div class="draggable_block" data-type="drawText" style="background: #2196F3;">drawText(x, y, text)</div>
+            <div class="draggable_block" data-type="drawTriangleF" style="background: #2196F3;">drawTriangleF(...)</div>
 
             <div class="category-label" style="color: #FF9800;">Control</div>
-            <div class="draggable_block" data-type="if" style="background: #FF9800;">if (condition)</div>
+            <div class="draggable_block" data-type="if" style="background: #FF9800;">if [cond] then</div>
+            <div class="draggable_block" data-type="ifelse" style="background: #FF9800;">if [cond] else</div>
             <div class="draggable_block" data-type="else" style="background: #FF9800;">else</div>
             <div class="draggable_block" data-type="end" style="background: #FF9800;">end</div>
+            <div class="draggable_block" data-type="for" style="background: #FF9800;">for i=1, 10 do</div>
 
-            <div class="category-label" style="color: #E91E63;">Variables</div>
-            <div class="draggable_block" data-type="varSet" style="background: #E91E63;">set var = val</div>
+            <div class="category-label" style="color: #E91E63;">Data</div>
+            <div class="draggable_block" data-type="varSet" style="background: #E91E63;">set [var] to [val]</div>
+            <div class="draggable_block" data-type="math" style="background: #E91E63;">[var] = [a] + [b]</div>
+            <div class="draggable_block" data-type="propNumber" style="background: #E91E63;">property.getNumber(label)</div>
+
+            <div class="category-label" style="color: #9C27B0;">Stormworks IO</div>
+            <div class="draggable_block" data-type="getInputB" style="background: #9C27B0;">input.getBool(ch)</div>
+            <div class="draggable_block" data-type="getInputN" style="background: #9C27B0;">input.getNumber(ch)</div>
+            <div class="draggable_block" data-type="setOutputB" style="background: #9C27B0;">output.setBool(ch, val)</div>
+            <div class="draggable_block" data-type="setOutputN" style="background: #9C27B0;">output.setNumber(ch, val)</div>
             
             <div id="import_section">
-                <p style="border:none; margin:0; padding:5px; font-size:12px; color: #aaa;">Import from Canvas (.json)</p>
-                <input type="file" id="import_canvas_file" accept=".json" style="width: 100%; font-size: 10px;">
-                <span id="import_status" style="font-size:10px;"></span>
+                <p style="border:none; margin:0; padding:5px; font-size:11px; color: #888;">Canvas Importer</p>
+                <input type="file" id="import_canvas_file" accept=".json">
+                <span id="import_status"></span>
             </div>
         </div>
 
         <!-- Main Workspace -->
         <div id="workspace">
             <div id="canvas_toolbar">
-                <button id="clear_canvas" class="tool_btn">Clear</button>
-                <button id="save_project" class="tool_btn">Save Project</button>
-                <label class="tool_btn" for="load_project">Load Project</label>
+                <button id="clear_canvas" class="tool_btn">Clear All</button>
+                <button id="save_project" class="tool_btn">Save .json</button>
+                <label class="tool_btn" for="load_project">Open .json</label>
                 <input type="file" id="load_project" style="display:none" accept=".json">
             </div>
             <canvas id="codeblock_canvas"></canvas>
@@ -60,11 +74,11 @@
         <!-- Output Code Panel -->
         <div id="code_space">
             <div class="output_header">
-                <span>Lua Output</span>
-                <button id="copy_code">Copy Code</button>
+                <span>LUA OUTPUT</span>
+                <button id="copy_code">COPY</button>
             </div>
-            <textarea id="outputCode" readonly placeholder="-- Lua code will appear here..."></textarea>
-            <div id="char_count">Characters: <span id="char_count_number">0</span></div>
+            <textarea id="outputCode" readonly></textarea>
+            <div id="char_count">Length: <span id="char_count_number">0</span> / 4096</div>
         </div>
     </div>
 
