@@ -21,36 +21,49 @@
         <!-- Sidebar / Toolbox -->
         <div id="toolbox">
             <div class="category-label" style="color: #FFD700;">Events</div>
-            <div class="draggable_block" data-type="onDraw" style="background: #FFD700;">onDraw()</div>
-            <div class="draggable_block" data-type="onTick" style="background: #FFD700;">onTick()</div>
+            <div class="draggable_block" draggable="true" data-type="onDraw" style="background: #FFD700;">onDraw()</div>
+            <div class="draggable_block" draggable="true" data-type="onTick" style="background: #FFD700;">onTick()</div>
 
             <div class="category-label" style="color: #03A9F4;">Smart Features</div>
-            <div class="draggable_block" data-type="canvasDraw" style="background: #03A9F4;">Canvas Drawing (.txt)</div>
-            <div class="draggable_block" data-type="touchDetect" style="background: #03A9F4;">Touch Detection</div>
-            <div class="draggable_block" data-type="screenDetect" style="background: #03A9F4;">Identify Screen Size</div>
+            <div class="draggable_block" draggable="true" data-type="canvasDraw" style="background: #03A9F4;">Canvas Drawing (.txt)</div>
+            <div class="draggable_block" draggable="true" data-type="touchDetect" style="background: #03A9F4;">Touch Detection</div>
+            <div class="draggable_block" draggable="true" data-type="screenDetect" style="background: #03A9F4;">Identify Screen Size</div>
+
+            <div class="category-label" style="color: #9C27B0;">Logic & Control</div>
+            <div class="draggable_block" draggable="true" data-type="ifStat" style="background: #9C27B0;">if [cond] then</div>
+            <div class="draggable_block" draggable="true" data-type="elseStat" style="background: #9C27B0;">else</div>
+            <div class="draggable_block" draggable="true" data-type="comparison" style="background: #9C27B0;">[a] == [b]</div>
+            <div class="draggable_block" draggable="true" data-type="logicAnd" style="background: #9C27B0;">[a] and [b]</div>
+            <div class="draggable_block" draggable="true" data-type="logicNot" style="background: #9C27B0;">not [val]</div>
 
             <div class="category-label" style="color: #4CAF50;">Screen</div>
-            <div class="draggable_block" data-type="setColor" style="background: #4CAF50;">setColor(r, g, b, a)</div>
-            <div class="draggable_block" data-type="drawRectF" style="background: #2196F3;">drawRectF(x, y, w, h)</div>
-            <div class="draggable_block" data-type="drawText" style="background: #2196F3;">drawText(x, y, text)</div>
+            <div class="draggable_block" draggable="true" data-type="setColor" style="background: #4CAF50;">setColor(r, g, b, a)</div>
+            <div class="draggable_block" draggable="true" data-type="drawRectF" style="background: #2196F3;">drawRectF(x, y, w, h)</div>
+            <div class="draggable_block" draggable="true" data-type="drawCircle" style="background: #2196F3;">drawCircle(x, y, r)</div>
+            <div class="draggable_block" draggable="true" data-type="drawText" style="background: #2196F3;">drawText(x, y, text)</div>
+
+            <div class="category-label" style="color: #FF5722;">Stormworks Inputs</div>
+            <div class="draggable_block" draggable="true" data-type="getInputN" style="background: #FF5722;">input.getNumber(i)</div>
+            <div class="draggable_block" draggable="true" data-type="getInputB" style="background: #FF5722;">input.getBool(i)</div>
+            <div class="draggable_block" draggable="true" data-type="setOutputN" style="background: #FF5722;">output.setNumber(i, v)</div>
+            <div class="draggable_block" draggable="true" data-type="setOutputB" style="background: #FF5722;">output.setBool(i, v)</div>
 
             <div class="category-label" style="color: #FF9800;">Utilities</div>
-            <div class="draggable_block" data-type="blink" style="background: #FF9800;">Blink Logic</div>
-            <div class="draggable_block" data-type="clamp" style="background: #FF9800;">Clamp Value</div>
-            <div class="draggable_block" data-type="lerp" style="background: #FF9800;">Lerp (Smooth)</div>
-            <div class="draggable_block" data-type="dist" style="background: #FF9800;">Distance 2D</div>
-            <div class="draggable_block" data-type="rgb" style="background: #FF9800;">HSV to RGB</div>
+            <div class="draggable_block" draggable="true" data-type="blink" style="background: #FF9800;">Blink Logic</div>
+            <div class="draggable_block" draggable="true" data-type="mathAbs" style="background: #FF9800;">math.abs(n)</div>
+            <div class="draggable_block" draggable="true" data-type="mathSin" style="background: #FF9800;">math.sin(n)</div>
+            <div class="draggable_block" draggable="true" data-type="lerp" style="background: #FF9800;">Lerp (Smooth)</div>
+            <div class="draggable_block" draggable="true" data-type="rgb" style="background: #FF9800;">HSV to RGB</div>
 
             <div class="category-label" style="color: #E91E63;">Data</div>
-            <div class="draggable_block" data-type="varSet" style="background: #E91E63;">set [var] to [val]</div>
-            <div class="draggable_block" data-type="end" style="background: #FF9800;">end</div>
+            <div class="draggable_block" draggable="true" data-type="varSet" style="background: #E91E63;">set [var] to [val]</div>
+            <div class="draggable_block" draggable="true" data-type="end" style="background: #607D8B;">end</div>
         </div>
 
         <!-- Main Workspace -->
         <div id="workspace">
             <div id="canvas_toolbar">
                 <button id="clear_canvas" class="tool_btn">Clear All</button>
-                <button id="save_project" class="tool_btn">Save .json</button>
             </div>
             <canvas id="codeblock_canvas"></canvas>
         </div>
