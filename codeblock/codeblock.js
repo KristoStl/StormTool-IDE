@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ctx = canvas.getContext("2d");
     const outputArea = document.getElementById("outputCode");
     const charCountLabel = document.getElementById("char_count_number");
+    const clearBtn = document.getElementById("clear_canvas");
     
     let blocks = [];
     let camera = { x: 0, y: 0, zoom: 1 };
@@ -21,37 +22,48 @@ document.addEventListener("DOMContentLoaded", () => {
         'onDraw': { color: '#FFD700', text: 'function onDraw()', hasPrev: false, hasNext: true },
         'onTick': { color: '#FFD700', text: 'function onTick()', hasPrev: false, hasNext: true },
         
-        // Smart Features
-        'canvasDraw': { 
-            color: '#03A9F4', text: 'Draw Canvas Data', hasPrev: true, hasNext: true,
-            params: { txtData: "[]" } 
-        },
-        'touchDetect': { 
-            color: '#03A9F4', text: 'isTouched(tx, ty, x, y, w, h)', hasPrev: true, hasNext: true 
-        },
-        'screenDetect': { 
-            color: '#03A9F4', text: 'Identify Screen Size', hasPrev: true, hasNext: true 
-        },
+        'canvasDraw': { color: '#03A9F4', text: 'Draw Canvas Data', hasPrev: true, hasNext: true, params: {txtData: "[]"} },
+        'touchDetect': { color: '#03A9F4', text: 'isTouched(tx, ty, x, y, w, h)', hasPrev: true, hasNext: true },
+        'screenDetect': { color: '#03A9F4', text: 'Identify Screen Size', hasPrev: true, hasNext: true },
 
-        // Screen
+        'ifStat': { color: '#9C27B0', text: 'if [cond] then', hasPrev: true, hasNext: true, params: {cond: "true"} },
+        'elseStat': { color: '#9C27B0', text: 'else', hasPrev: true, hasNext: true },
+        'comparison': { color: '#9C27B0', text: 'a == b', hasPrev: true, hasNext: true },
+        'logicAnd': { color: '#9C27B0', text: 'a and b', hasPrev: true, hasNext: true },
+        'logicNot': { color: '#9C27B0', text: 'not val', hasPrev: true, hasNext: true },
+
         'setColor': { color: '#4CAF50', text: 'screen.setColor(r, g, b, a)', hasPrev: true, hasNext: true, params: {r: 255, g: 255, b: 255, a: 255} },
         'drawRectF': { color: '#2196F3', text: 'screen.drawRectF(x, y, w, h)', hasPrev: true, hasNext: true, params: {x: 0, y: 0, w: 10, h: 10} },
+        'drawCircle': { color: '#2196F3', text: 'screen.drawCircle(x, y, r)', hasPrev: true, hasNext: true, params: {x: 0, y: 0, r: 5} },
         'drawText': { color: '#2196F3', text: 'screen.drawText(x, y, text)', hasPrev: true, hasNext: true, params: {x: 0, y: 0, text: "Hello"} },
 
-        // Utilities
-        'blink': { color: '#FF9800', text: 'Blink Logic (ticks, spd)', hasPrev: true, hasNext: true },
-        'clamp': { color: '#FF9800', text: 'Clamp(v, min, max)', hasPrev: true, hasNext: true },
+        'getInputN': { color: '#FF5722', text: 'var = input.getNumber(i)', hasPrev: true, hasNext: true, params: {var: "n", i: 1} },
+        'getInputB': { color: '#FF5722', text: 'var = input.getBool(i)', hasPrev: true, hasNext: true, params: {var: "b", i: 1} },
+        'setOutputN': { color: '#FF5722', text: 'output.setNumber(i, v)', hasPrev: true, hasNext: true, params: {i: 1, v: 0} },
+        'setOutputB': { color: '#FF5722', text: 'output.setBool(i, v)', hasPrev: true, hasNext: true, params: {i: 1, v: "false"} },
+
+        'blink': { color: '#FF9800', text: 'Blink Logic (ticks)', hasPrev: true, hasNext: true },
+        'mathAbs': { color: '#FF9800', text: 'math.abs(n)', hasPrev: true, hasNext: true },
+        'mathSin': { color: '#FF9800', text: 'math.sin(n)', hasPrev: true, hasNext: true },
         'lerp': { color: '#FF9800', text: 'Lerp(a, b, t)', hasPrev: true, hasNext: true },
-        'dist': { color: '#FF9800', text: 'Distance(x1, y1, x2, y2)', hasPrev: true, hasNext: true },
         'rgb': { color: '#FF9800', text: 'HSV to RGB converter', hasPrev: true, hasNext: true },
 
         'varSet': { color: '#E91E63', text: 'set [var] to [val]', hasPrev: true, hasNext: true, params: {name: "x", val: "0"} },
-        'end': { color: '#FF9800', text: 'end', hasPrev: true, hasNext: true }
+        'end': { color: '#607D8B', text: 'end', hasPrev: true, hasNext: true }
     };
 
     function init() {
         resize();
         window.addEventListener('resize', resize);
+        
+        // Re-bind draggable events to ensure they work
+        const toolboxBlocks = document.querySelectorAll('.draggable_block');
+        toolboxBlocks.forEach(el => {
+            el.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('type', e.target.getAttribute('data-type'));
+            });
+        });
+
         addBlock('onDraw', 50, 50);
         generateLua();
         loop();
@@ -62,24 +74,21 @@ document.addEventListener("DOMContentLoaded", () => {
         canvas.height = canvas.offsetHeight;
     }
 
-    document.querySelectorAll('.draggable_block').forEach(el => {
-        el.addEventListener('dragstart', e => {
-            e.dataTransfer.setData('type', e.target.dataset.type);
-        });
-    });
-
     canvas.addEventListener('dragover', e => e.preventDefault());
     canvas.addEventListener('drop', e => {
         e.preventDefault();
         const type = e.dataTransfer.getData('type');
+        if (!type) return;
         const rect = canvas.getBoundingClientRect();
         const m = {
             wx: (e.clientX - rect.left - camera.x) / camera.zoom,
             wy: (e.clientY - rect.top - camera.y) / camera.zoom
         };
-        addBlock(type, m.wx - 20, m.wy - 10);
+        addBlock(type, m.wx, m.wy);
         generateLua();
     });
+
+    clearBtn.onclick = () => { if(confirm("Clear all blocks?")) { blocks = []; generateLua(); }};
 
     canvas.addEventListener('mousedown', e => {
         const m = getMouse(e);
@@ -109,22 +118,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (hit.type === 'canvasDraw') {
                 const input = document.createElement('input');
                 input.type = 'file';
-                input.accept = ".txt";
                 input.onchange = e => {
-                    const file = e.target.files[0];
                     const reader = new FileReader();
-                    reader.onload = ev => {
-                        hit.params.txtData = ev.target.result;
-                        generateLua();
-                    };
-                    reader.readAsText(file);
+                    reader.onload = ev => { hit.params.txtData = ev.target.result; generateLua(); };
+                    reader.readAsText(e.target.files[0]);
                 };
                 input.click();
             } else if (Object.keys(hit.params).length > 0) {
-                const result = prompt("Edit properties (JSON):", JSON.stringify(hit.params));
-                if (result) {
-                    try { hit.params = JSON.parse(result); generateLua(); } catch(e) {}
-                }
+                const result = prompt("Edit properties (JSON format):", JSON.stringify(hit.params));
+                if (result) { try { hit.params = JSON.parse(result); generateLua(); } catch(e) {} }
             }
         }
     });
@@ -162,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function addBlock(type, x, y) {
         const t = BLOCK_TYPES[type];
+        if(!t) return;
         const b = {
             id: Math.random(),
             type, x, y, w: 180, h: BLOCK_HEIGHT,
@@ -170,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
             next: null
         };
         ctx.font = "bold 12px 'Segoe UI'";
-        b.w = Math.max(150, ctx.measureText(b.text).width + 60);
+        b.w = Math.max(160, ctx.measureText(b.text).width + 60);
         blocks.push(b);
     }
 
@@ -188,10 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 parent.next = child.id;
                 child.x = parent.x;
                 child.y = parent.y + parent.h;
-                if (oldNext) {
-                    child.next = oldNext;
-                    updateChain(oldNext, child.x, child.y + child.h);
-                }
+                if (oldNext) { child.next = oldNext; updateChain(oldNext, child.x, child.y + child.h); }
                 break;
             }
         }
@@ -243,9 +243,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fill();
 
         ctx.fillStyle = "#000";
-        ctx.font = "bold 12px 'Segoe UI'";
+        ctx.font = "bold 11px 'Segoe UI'";
         let display = b.text;
-        if (b.type === 'canvasDraw') display = "Draw: (Double-click to load .txt)";
+        if (b.type === 'canvasDraw') display = "Draw Canvas (DBL Click to load)";
         ctx.fillText(display, b.x + 10, b.y + 19);
     }
 
@@ -273,25 +273,26 @@ document.addEventListener("DOMContentLoaded", () => {
             case 'canvasDraw': 
                 let data = [];
                 try { data = JSON.parse(p.txtData); } catch(e) {}
-                let lua = "  -- Canvas Data\n";
+                let lua = "  -- Canvas\n";
                 data.forEach(d => {
-                    if(d.type === 'line') lua += `  screen.drawLine(${d.x1}, ${d.y1}, ${d.x2}, ${d.y2})\n`;
-                    if(d.type === 'rectF') lua += `  screen.drawRectF(${d.x1}, ${d.y1}, ${d.x2-d.x1}, ${d.y2-d.y1})\n`;
+                    if(d.type === 'line') lua += `  screen.drawLine(${d.x1},${d.y1},${d.x2},${d.y2})\n`;
+                    if(d.type === 'rectF') lua += `  screen.drawRectF(${d.x1},${d.y1},${d.x2-d.x1},${d.y2-d.y1})\n`;
                 });
                 return lua;
-            case 'touchDetect':
-                return "  function isTouched(tx,ty,x,y,w,h) return tx>=x and tx<=x+w and ty>=y and ty<=y+h end\n";
-            case 'screenDetect':
-                return "  local w,h = screen.getWidth(), screen.getHeight()\n  local type = w==32 and \"1x1\" or w==64 and \"2x2\" or w==96 and \"3x3\" or \"Other\"\n";
-            case 'blink': return "  local blink = (ticks % (30*2)) < 30\n";
-            case 'clamp': return "  function clamp(v,min,max) return math.max(min, math.min(max,v)) end\n";
-            case 'lerp': return "  function lerp(a,b,t) return a+(b-a)*t end\n";
-            case 'dist': return "  function dist(x1,y1,x2,y2) return math.sqrt((x2-x1)^2+(y2-y1)^2) end\n";
-            case 'rgb': return "  function hsvToRgb(h,s,v) -- hsv to rgb logic\n  end\n";
-            case 'setColor': return `  screen.setColor(${p.r}, ${p.g}, ${p.b}, ${p.a})\n`;
-            case 'drawRectF': return `  screen.drawRectF(${p.x}, ${p.y}, ${p.w}, ${p.h})\n`;
+            case 'ifStat': return `  if ${p.cond} then\n`;
+            case 'elseStat': return "  else\n";
+            case 'getInputN': return `  ${p.var} = input.getNumber(${p.i})\n`;
+            case 'getInputB': return `  ${p.var} = input.getBool(${p.i})\n`;
+            case 'setOutputN': return `  output.setNumber(${p.i}, ${p.v})\n`;
+            case 'setOutputB': return `  output.setBool(${p.i}, ${p.v})\n`;
+            case 'mathAbs': return "  n = math.abs(n)\n";
+            case 'mathSin': return "  n = math.sin(n)\n";
+            case 'setColor': return `  screen.setColor(${p.r},${p.g},${p.b},${p.a})\n`;
+            case 'drawRectF': return `  screen.drawRectF(${p.x},${p.y},${p.w},${p.h})\n`;
+            case 'drawCircle': return `  screen.drawCircle(${p.x},${p.y},${p.r})\n`;
+            case 'drawText': return `  screen.drawText(${p.x},${p.y},"${p.text}")\n`;
             case 'varSet': return `  ${p.name} = ${p.val}\n`;
-            case 'end': return "end\n";
+            case 'end': return "  end\n";
             default: return `  -- ${b.text}\n`;
         }
     }
