@@ -11,6 +11,7 @@ body, html {
     height: 100%;
     width: 100%;
     overflow: hidden; /* Prevent body scroll */
+    /* Updated to match the original tool's font style */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-main);
@@ -75,6 +76,8 @@ body, html {
     text-overflow: ellipsis;
     border: 1px solid rgba(0,0,0,0.1);
     transition: transform 0.1s;
+    /* Added to ensure the cursor remains grab during initial click */
+    touch-action: none;
 }
 
 .draggable_block:active {
