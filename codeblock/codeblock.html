@@ -23,41 +23,27 @@
             <div class="category-label" style="color: #FFD700;">Events</div>
             <div class="draggable_block" data-type="onDraw" style="background: #FFD700;">onDraw()</div>
             <div class="draggable_block" data-type="onTick" style="background: #FFD700;">onTick()</div>
-            <div class="draggable_block" data-type="function" style="background: #FFD700;">function name(args)</div>
+
+            <div class="category-label" style="color: #03A9F4;">Smart Features</div>
+            <div class="draggable_block" data-type="canvasDraw" style="background: #03A9F4;">Canvas Drawing (.txt)</div>
+            <div class="draggable_block" data-type="touchDetect" style="background: #03A9F4;">Touch Detection</div>
+            <div class="draggable_block" data-type="screenDetect" style="background: #03A9F4;">Identify Screen Size</div>
 
             <div class="category-label" style="color: #4CAF50;">Screen</div>
             <div class="draggable_block" data-type="setColor" style="background: #4CAF50;">setColor(r, g, b, a)</div>
-            <div class="draggable_block" data-type="drawRect" style="background: #2196F3;">drawRect(x, y, w, h)</div>
             <div class="draggable_block" data-type="drawRectF" style="background: #2196F3;">drawRectF(x, y, w, h)</div>
-            <div class="draggable_block" data-type="drawLine" style="background: #2196F3;">drawLine(x1, y1, x2, y2)</div>
-            <div class="draggable_block" data-type="drawCircle" style="background: #2196F3;">drawCircle(x, y, r)</div>
-            <div class="draggable_block" data-type="drawCircleF" style="background: #2196F3;">drawCircleF(x, y, r)</div>
             <div class="draggable_block" data-type="drawText" style="background: #2196F3;">drawText(x, y, text)</div>
-            <div class="draggable_block" data-type="drawTriangleF" style="background: #2196F3;">drawTriangleF(...)</div>
 
-            <div class="category-label" style="color: #FF9800;">Control</div>
-            <div class="draggable_block" data-type="if" style="background: #FF9800;">if [cond] then</div>
-            <div class="draggable_block" data-type="ifelse" style="background: #FF9800;">if [cond] else</div>
-            <div class="draggable_block" data-type="else" style="background: #FF9800;">else</div>
-            <div class="draggable_block" data-type="end" style="background: #FF9800;">end</div>
-            <div class="draggable_block" data-type="for" style="background: #FF9800;">for i=1, 10 do</div>
+            <div class="category-label" style="color: #FF9800;">Utilities</div>
+            <div class="draggable_block" data-type="blink" style="background: #FF9800;">Blink Logic</div>
+            <div class="draggable_block" data-type="clamp" style="background: #FF9800;">Clamp Value</div>
+            <div class="draggable_block" data-type="lerp" style="background: #FF9800;">Lerp (Smooth)</div>
+            <div class="draggable_block" data-type="dist" style="background: #FF9800;">Distance 2D</div>
+            <div class="draggable_block" data-type="rgb" style="background: #FF9800;">HSV to RGB</div>
 
             <div class="category-label" style="color: #E91E63;">Data</div>
             <div class="draggable_block" data-type="varSet" style="background: #E91E63;">set [var] to [val]</div>
-            <div class="draggable_block" data-type="math" style="background: #E91E63;">[var] = [a] + [b]</div>
-            <div class="draggable_block" data-type="propNumber" style="background: #E91E63;">property.getNumber(label)</div>
-
-            <div class="category-label" style="color: #9C27B0;">Stormworks IO</div>
-            <div class="draggable_block" data-type="getInputB" style="background: #9C27B0;">input.getBool(ch)</div>
-            <div class="draggable_block" data-type="getInputN" style="background: #9C27B0;">input.getNumber(ch)</div>
-            <div class="draggable_block" data-type="setOutputB" style="background: #9C27B0;">output.setBool(ch, val)</div>
-            <div class="draggable_block" data-type="setOutputN" style="background: #9C27B0;">output.setNumber(ch, val)</div>
-            
-            <div id="import_section">
-                <p style="border:none; margin:0; padding:5px; font-size:11px; color: #888;">Canvas Importer</p>
-                <input type="file" id="import_canvas_file" accept=".json">
-                <span id="import_status"></span>
-            </div>
+            <div class="draggable_block" data-type="end" style="background: #FF9800;">end</div>
         </div>
 
         <!-- Main Workspace -->
@@ -65,12 +51,8 @@
             <div id="canvas_toolbar">
                 <button id="clear_canvas" class="tool_btn">Clear All</button>
                 <button id="save_project" class="tool_btn">Save .json</button>
-                <label class="tool_btn" for="load_project">Open .json</label>
-                <input type="file" id="load_project" style="display:none" accept=".json">
             </div>
             <canvas id="codeblock_canvas"></canvas>
-            <!-- Inline Editor Overlay -->
-            <input type="text" id="inline_editor" style="display:none; position:absolute; z-index:100; font-family: 'Segoe UI', Tahoma, sans-serif; font-weight:bold; font-size:13px; border:2px solid #3498db; outline:none; background:white; padding:2px 5px;">
         </div>
 
         <!-- Output Code Panel -->
