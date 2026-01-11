@@ -1,107 +1,73 @@
 <!DOCTYPE html>
-
-<html> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Mr Lennyn's Tools - Codeblock Editor</title> <link rel="stylesheet" href="../styles.css" /> <link rel="stylesheet" href="codeblock.css" /> <link rel="icon" type="image/svg+xml" href="../favicon.svg"> </head> <body> <header> <div class="links"> <a href="../index.html">Home</a> <a href="../imagetolua/imagetolua.html">Image Lua Converter</a> <a href="../canvas/canvas.html">Drawing Canvas</a> <a href="codeblock.html" style="background-color: rgb(40, 40, 40)">Codeblock Editor</a> <a href="../links/links.html">Directory</a> <a href="help.html">Help</a> </div> </header>
-
-<div id="workspace" style="flex-direction: row; height: calc(100vh - 40px);">
-  
-  <div id="toolbox_sidebar" style="width: 250px; background-color: var(--header_color); border-right: 2px solid var(--border_color); display: flex; flex-direction: column;">
-    <div class="toolbox_header" style="padding: 10px; border-bottom: 2px solid var(--border_color); font-weight: bold;">
-      Block Library
-    </div>
-    
-    <div id="toolbox_categories" style="overflow-y: auto; flex-grow: 1;">
-      
-      <div class="category_group">
-        <div class="category_title">Events</div>
-        <div class="draggable_block event_block" data-type="onDraw" draggable="true">onDraw()</div>
-        <div class="draggable_block event_block" data-type="onTick" draggable="true">onTick()</div>
-      </div>
-
-      <div class="category_group">
-        <div class="category_title">Drawing</div>
-        <div class="draggable_block draw_block" data-type="setColor" draggable="true">screen.setColor</div>
-        <div class="draggable_block draw_block" data-type="drawRect" draggable="true">screen.drawRect</div>
-        <div class="draggable_block draw_block" data-type="drawRectF" draggable="true">screen.drawRectF</div>
-        <div class="draggable_block draw_block" data-type="drawLine" draggable="true">screen.drawLine</div>
-        <div class="draggable_block draw_block" data-type="drawCircle" draggable="true">screen.drawCircle</div>
-        <div class="draggable_block draw_block" data-type="drawText" draggable="true">screen.drawText</div>
-      </div>
-
-      <div class="category_group">
-        <div class="category_title">Logic</div>
-        <div class="draggable_block logic_block" data-type="if" draggable="true">If ... Then</div>
-        <div class="draggable_block logic_block" data-type="else" draggable="true">Else</div>
-        <div class="draggable_block logic_block" data-type="end" draggable="true">End</div>
-      </div>
-
-      <div class="category_group">
-        <div class="category_title">Input & Interaction</div>
-        <div class="draggable_block input_block" data-type="isPressed" draggable="true">input.getBool</div>
-        <div class="draggable_block input_block" data-type="clickDetect" draggable="true">Click Detection (Rec)</div>
-      </div>
-
-      <div class="category_group">
-        <div class="category_title">Variables</div>
-        <div class="draggable_block var_block" data-type="varSet" draggable="true">Set Variable</div>
-        <div class="draggable_block var_block" data-type="math" draggable="true">Math Operation</div>
-      </div>
-
-    </div>
-  </div>
-
-  <div id="editor_viewport" style="flex-grow: 1; position: relative; background-color: #1e1e1e; overflow: hidden; cursor: grab;">
-    <canvas id="codeblock_canvas"></canvas>
-    
-    <div id="drag_overlay" style="pointer-events: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-  </div>
-
-  <div id="side_bar" style="width: 400px; border-left: 2px solid var(--border_color); display: flex; flex-direction: column;">
-    
-    <div id="controls_panel" style="padding: 10px; background-color: var(--header_color); border-bottom: 2px solid var(--border_color);">
-      
-      <div style="margin-bottom: 10px; font-weight: bold;">Project Controls</div>
-      
-      <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-        <button class="shape_tools" id="save_project" title="Save Codeblock Project">Save</button>
-        <label class="shape_tools" style="display: inline-block; text-align: center; cursor: pointer;" title="Load Codeblock Project">
-          Load
-          <input type="file" id="load_project" accept=".json" style="display: none;">
-        </label>
-        <button class="shape_tools" id="clear_canvas" title="Clear All Blocks" style="background-color: #AC3232;">Clear</button>
-      </div>
-
-      <hr style="border-color: var(--border_color);">
-
-      <div style="margin-top: 10px;">
-        <div style="margin-bottom: 5px; font-size: 0.9em;">Import UI from Canvas:</div>
-        <label for="import_canvas_file" style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
-          <input type="file" id="import_canvas_file" accept=".txt" style="display: none;" />
-          <div class="shape_tools" style="width: auto; padding: 0 10px;">Select Canvas File</div>
-        </label>
-        <span id="import_status" style="font-size: 0.8em; color: #888;">No file loaded</span>
-      </div>
-
-    </div>
-
-    <div id="code_space" style="width: 100%; flex-grow: 1; display: flex; flex-direction: column;">
-      <section id="outputSet">
-        <input class="output_tools" id="copy_code" type="image" src="../canvas/images/copy_button.png" width="40px" height="40px" title="Copy Lua to Clipboard" />
-        <div class="output_tools">
-          <label>Char Count:</label><br>
-          <label id="char_count_number">0</label>
+<html>
+<head>
+    <title>Mr Lennyn's Tools - Codeblocks</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="codeblock.css" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+    <header>
+        <div class="links">
+            <a href="../index.html">Home</a>
+            <a href="../imagetolua/imagetolua.html">Image Lua Converter</a>
+            <a href="../canvas/canvas.html">Drawing Canvas</a>
+            <a href="codeblock.html" style="background-color: rgb(40, 40, 40)">Codeblocks</a>
+            <a href="../links/links.html">Directory</a>
         </div>
-        <div class="output_tools">
-           <label title="Generate valid Lua code">Minify:</label>
-           <input type="checkbox" id="minify_toggle">
+    </header>
+
+    <div id="editor_container">
+        <!-- Sidebar / Toolbox -->
+        <div id="toolbox">
+            <div class="category-label" style="color: #FFD700;">Events</div>
+            <div class="draggable_block" data-type="onDraw" style="background: #FFD700;">onDraw()</div>
+            <div class="draggable_block" data-type="onTick" style="background: #FFD700;">onTick()</div>
+
+            <div class="category-label" style="color: #4CAF50;">Drawing</div>
+            <div class="draggable_block" data-type="setColor" style="background: #4CAF50;">setColor(r,g,b,a)</div>
+            <div class="draggable_block" data-type="drawRect" style="background: #2196F3;">drawRect(x,y,w,h)</div>
+            <div class="draggable_block" data-type="drawRectF" style="background: #2196F3;">drawRectF(x,y,w,h)</div>
+            <div class="draggable_block" data-type="drawCircle" style="background: #2196F3;">drawCircle(x,y,r)</div>
+            <div class="draggable_block" data-type="drawText" style="background: #2196F3;">drawText(x,y,text)</div>
+
+            <div class="category-label" style="color: #FF9800;">Control</div>
+            <div class="draggable_block" data-type="if" style="background: #FF9800;">if (condition)</div>
+            <div class="draggable_block" data-type="else" style="background: #FF9800;">else</div>
+            <div class="draggable_block" data-type="end" style="background: #FF9800;">end</div>
+
+            <div class="category-label" style="color: #E91E63;">Variables</div>
+            <div class="draggable_block" data-type="varSet" style="background: #E91E63;">set var = val</div>
+            
+            <div id="import_section">
+                <p style="border:none; margin:0; padding:5px; font-size:12px; color: #aaa;">Import from Canvas (.json)</p>
+                <input type="file" id="import_canvas_file" accept=".json" style="width: 100%; font-size: 10px;">
+                <span id="import_status" style="font-size:10px;"></span>
+            </div>
         </div>
-      </section>
-      
-      <textarea id="outputCode" style="flex-grow: 1; width: 100%; box-sizing: border-box; resize: none; color: white; font-family: monospace; border: none; background-color: black; padding: 10px;" readonly>-- Lua output will appear here...</textarea>
+
+        <!-- Main Workspace -->
+        <div id="workspace">
+            <div id="canvas_toolbar">
+                <button id="clear_canvas" class="tool_btn">Clear</button>
+                <button id="save_project" class="tool_btn">Save Project</button>
+                <label class="tool_btn" for="load_project">Load Project</label>
+                <input type="file" id="load_project" style="display:none" accept=".json">
+            </div>
+            <canvas id="codeblock_canvas"></canvas>
+        </div>
+
+        <!-- Output Code Panel -->
+        <div id="code_space">
+            <div class="output_header">
+                <span>Lua Output</span>
+                <button id="copy_code">Copy Code</button>
+            </div>
+            <textarea id="outputCode" readonly placeholder="-- Lua code will appear here..."></textarea>
+            <div id="char_count">Characters: <span id="char_count_number">0</span></div>
+        </div>
     </div>
 
-  </div>
-</div>
-
-<script src="../canvas/ui_handling.js"></script>
-<script src="codeblock.js"></script>
-</body> </html>
+    <script src="codeblock.js"></script>
+</body>
+</html>
