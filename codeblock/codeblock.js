@@ -56,11 +56,20 @@ document.addEventListener("DOMContentLoaded", () => {
         canvas.height = canvas.offsetHeight;
     }
 
-    // Toolbox Drag - Improved with direct Canvas check
+    // Toolbox Drag - Improved event handling
     document.querySelectorAll('.draggable_block').forEach(el => {
+        el.setAttribute('draggable', 'true'); // Explicitly set
         el.addEventListener('dragstart', e => {
             e.dataTransfer.setData('type', e.target.dataset.type);
             e.dataTransfer.effectAllowed = 'copy';
+            
+            // Fix for some browsers needing feedback
+            const ghost = e.target.cloneNode(true);
+            ghost.style.position = "absolute";
+            ghost.style.top = "-1000px";
+            document.body.appendChild(ghost);
+            e.dataTransfer.setDragImage(ghost, 0, 0);
+            setTimeout(() => document.body.removeChild(ghost), 0);
         });
     });
 
@@ -75,12 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!type) return;
         
         const rect = canvas.getBoundingClientRect();
+        // Corrected calculation for drop coordinates relative to camera/zoom
         const m = {
             wx: (e.clientX - rect.left - camera.x) / camera.zoom,
             wy: (e.clientY - rect.top - camera.y) / camera.zoom
         };
         
-        addBlock(type, m.wx - 50, m.wy - 20); // Center slightly on drop
+        // Offset so mouse is roughly at top-left of the newly created block
+        addBlock(type, m.wx - 20, m.wy - 20); 
         generateLua();
     });
 
@@ -130,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isDraggingBlock) {
             const b = blocks.find(x => x.id === draggedBlockId);
             if (b) {
-                // Trash feature: if dropped over toolbox area
                 const toolboxRect = toolbox.getBoundingClientRect();
                 if (e.clientX < toolboxRect.right) {
                     blocks = blocks.filter(x => x.id !== b.id);
@@ -161,7 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
             params: t.params ? JSON.parse(JSON.stringify(t.params)) : {},
             next: null
         };
-        ctx.font = "bold 13px sans-serif";
+        // Use the same font as drawing to calculate width
+        ctx.font = "bold 13px 'Segoe UI', Tahoma, sans-serif";
         b.w = Math.max(180, ctx.measureText(b.text).width + 70);
         blocks.push(b);
         return b;
@@ -263,12 +274,18 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.stroke();
 
         ctx.fillStyle = "#000";
-        ctx.font = "bold 13px sans-serif";
+        // Unified font
+        ctx.font = "bold 13px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+        ctx.textBaseline = "middle"; // Critical for vertical centering
+        
         let display = b.text;
         if (b.type === 'varSet') display = `${b.params.name} = ${b.params.val}`;
         if (b.type === 'if' || b.type === 'ifelse') display = `if ${b.params.condition} then`;
         if (b.type === 'function') display = `function ${b.params.name}(${b.params.args})`;
-        ctx.fillText(display, b.x + 15, b.y + b.h/2 + 5);
+        
+        // Horizontal centering offset: b.x + 15
+        // Vertical centering: b.y + (b.h / 2)
+        ctx.fillText(display, b.x + 15, b.y + (b.h / 2));
     }
 
     function generateLua() {
